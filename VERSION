@@ -8,7 +8,7 @@ Release Date: 01/10/09
             : Cliff Hall <clifford.hall@puremvc.org>
 --------------------------------------------------------------------------
 1.2   Libraries now include version number. - CLH
-s
+
 1.1   haXe 2.0 compatibility. This version is no longer compatible with older 
       versions of haXe. - MS
 
