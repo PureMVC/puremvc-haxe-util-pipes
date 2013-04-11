@@ -73,65 +73,81 @@ class Filter extends Pipe
 	{
 		var outputMessage: IPipeMessage = null;
 		var success: Bool = true;
-		// Filter normal messages
-		switch ( message.getType() )
+		var messageType: String = message.getType();
+		
+		if (messageType == Message.NORMAL)
 		{
-			case Message.NORMAL: 	
-				try
+			// Filter normal messages
+			try
+			{
+				if ( mode == FilterControlMessage.FILTER )
 				{
-					if ( mode == FilterControlMessage.FILTER )
-					{
-						outputMessage = applyFilter( message );
-					}else
-					{
-						outputMessage = message;
-					}
-					success = output.write( outputMessage );
-				}catch ( e: Dynamic )
-				{
-					success = false;
+					outputMessage = applyFilter( message );
 				}
-				
-			// Accept parameters from control message 
-			case FilterControlMessage.SET_PARAMS:
-				if (isTarget(message) )
+				else
 				{
-					setParams( cast( message, FilterControlMessage ).getParams() );
-				}else
-				{
-					success = output.write( outputMessage );
+					outputMessage = message;
 				}
- 			// Accept filter function from control message 
-			case FilterControlMessage.SET_FILTER:
-				if ( isTarget( message ) )
-				{
-					setFilter( cast( message, FilterControlMessage ).getFilter() );
-				}else
-				{
-					success = output.write( outputMessage );
-				}
-			// Toggle between Filter or Bypass operational modes
-			case FilterControlMessage.BYPASS:
-				if ( isTarget( message ) )
-				{
-					mode = cast( message, FilterControlMessage ).getType();
-				}else
-				{
-					success = output.write( outputMessage );
-				}
-			case FilterControlMessage.FILTER:
-				if ( isTarget( message ) )
-				{
-					mode = cast( message, FilterControlMessage ).getType();
-				}else
-				{
-					success = output.write( outputMessage );
-				}
-			
-			// Write control messages for other fittings through
-			default:	
 				success = output.write( outputMessage );
+			}
+			catch ( e: Dynamic )
+			{
+				success = false;
+			}
 		}
+		else if (messageType == FilterControlMessage.SET_PARAMS)
+		{
+			// Accept parameters from control message 
+			if (isTarget(message) )
+			{
+				setParams( cast( message, FilterControlMessage ).getParams() );
+			}
+			else
+			{
+				success = output.write( outputMessage );
+			}
+		}
+		else if (messageType == FilterControlMessage.SET_FILTER)
+		{
+ 			// Accept filter function from control message 
+			if ( isTarget( message ) )
+			{
+				setFilter( cast( message, FilterControlMessage ).getFilter() );
+			}
+			else
+			{
+				success = output.write( outputMessage );
+			}
+		}
+		else if (messageType == FilterControlMessage.BYPASS)
+		{
+			// Toggle between Filter or Bypass operational modes
+			if ( isTarget( message ) )
+			{
+				mode = cast( message, FilterControlMessage ).getType();
+			}
+			else
+			{
+				success = output.write( outputMessage );
+			}
+		}
+		else if (messageType == FilterControlMessage.FILTER)
+		{
+			if ( isTarget( message ) )
+			{
+				mode = cast( message, FilterControlMessage ).getType();
+			}
+			else
+			{
+				success = output.write( outputMessage );
+			}
+		}
+		else
+		{
+			// Write control messages for other fittings through
+			success = output.write( outputMessage );
+		}
+		
 		return success;			
 	}
 	

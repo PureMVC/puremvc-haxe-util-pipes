@@ -7,6 +7,12 @@ package org.puremvc.haxe.multicore.utilities.pipes.plumbing;
 
 import org.puremvc.haxe.multicore.utilities.pipes.interfaces.IPipeFitting;
 import org.puremvc.haxe.multicore.utilities.pipes.interfaces.IPipeMessage;
+
+#if haxe3
+import haxe.ds.StringMap;
+#else
+private typedef StringMap<T> = Hash<T>;
+#end
 	
 /**
  * Pipe Junction.
@@ -40,8 +46,8 @@ class Junction
 	{
 		inputPipes = new Array();
 		outputPipes = new Array();
-		pipesMap = new Hash();
-		pipeTypesMap = new Hash();
+		pipesMap = new StringMap();
+		pipeTypesMap = new StringMap();
 	}
 
 	/**
@@ -188,11 +194,11 @@ class Junction
 	/** 
 	 * The map of pipe names to their pipes
 	 */
-	private var pipesMap: Hash<IPipeFitting>;
+	private var pipesMap: StringMap<IPipeFitting>;
 		
 	/**
 	 * The map of pipe names to their types
 	 */
-	private var pipeTypesMap: Hash<String>;
+	private var pipeTypesMap: StringMap<String>;
 
 }
