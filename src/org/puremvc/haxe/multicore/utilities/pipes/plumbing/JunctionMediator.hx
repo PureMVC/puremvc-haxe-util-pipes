@@ -65,24 +65,26 @@ class JunctionMediator extends Mediator
 	 */
 	override public function handleNotification( note: INotification ): Void
 	{
-		switch( note.getName() )
+		var noteName: String = note.getName();
+		
+		if (noteName == JunctionMediator.ACCEPT_INPUT_PIPE)
 		{
 			// accept an input pipe
 			// register the pipe and if successful 
 			// set this mediator as its listener
-			case JunctionMediator.ACCEPT_INPUT_PIPE:
-				var inputPipeName: String = note.getType();
-				var inputPipe: IPipeFitting = if ( Std.is( note.getBody(), IPipeFitting) ) note.getBody() else null;
-				if ( junction.registerPipe( inputPipeName, Junction.INPUT, inputPipe ) ) 
-				{
-					junction.addPipeListener( inputPipeName, this, handlePipeMessage );		
-				} 
-				
+			var inputPipeName: String = note.getType();
+			var inputPipe: IPipeFitting = if ( Std.is( note.getBody(), IPipeFitting) ) note.getBody() else null;
+			if ( junction.registerPipe( inputPipeName, Junction.INPUT, inputPipe ) ) 
+			{
+				junction.addPipeListener( inputPipeName, this, handlePipeMessage );		
+			} 
+		}
+		else if (noteName == JunctionMediator.ACCEPT_OUTPUT_PIPE)
+		{
 			// accept an output pipe
-			case JunctionMediator.ACCEPT_OUTPUT_PIPE:
-				var outputPipeName: String = note.getType();
-				var outputPipe: IPipeFitting = if ( Std.is( note.getBody(), IPipeFitting) ) note.getBody() else null;
-				junction.registerPipe( outputPipeName, Junction.OUTPUT, outputPipe );
+			var outputPipeName: String = note.getType();
+			var outputPipe: IPipeFitting = if ( Std.is( note.getBody(), IPipeFitting) ) note.getBody() else null;
+			junction.registerPipe( outputPipeName, Junction.OUTPUT, outputPipe );
 		}
 	}
 		
@@ -98,11 +100,20 @@ class JunctionMediator extends Mediator
 	/**
 	 * The Junction for this Module.
 	 */
-	private var junction( getJunction, null ): Junction;
+	#if haxe3
+	private var junction( get, null ): Junction;
+	#else
+	private var junction( get_junction, null ): Junction;
+	#end
 
-	private function getJunction()
+	private function get_junction()
 	{
 		return if ( Std.is( viewComponent, Junction ) ) viewComponent else null;
+	}
+	
+	private function getJunction()
+	{
+		return get_junction();
 	}
 		
 

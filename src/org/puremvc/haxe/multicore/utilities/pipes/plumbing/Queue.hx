@@ -60,24 +60,31 @@ class Queue extends Pipe
 	override public function write( message: IPipeMessage ): Bool
 	{
 		var success: Bool = true;
-		switch ( message.getType() )	
+		var messageType: String = message.getType();
+		
+		if (messageType == Message.NORMAL) 
 		{
 			// Store normal messages
-			case Message.NORMAL:
-				this.store( message );
-				
+			this.store( message );
+		}
+		else if (messageType == QueueControlMessage.FLUSH)
+		{
 			// Flush the queue
-			case QueueControlMessage.FLUSH:
-				success = this.flush();		
+			success = this.flush();	
+		}
+		else if (messageType == QueueControlMessage.SORT)
+		{
 			// Put Queue into Priority Sort or FIFO mode 
 			// Subsequent messages written to the queue
 			// will be affected. Sorted messages cannot
 			// be put back into FIFO order!
-			case QueueControlMessage.SORT:
-				mode = message.getType();
-			case QueueControlMessage.FIFO:
-				mode = message.getType();
+			mode = message.getType();
 		}
+		else if (messageType == QueueControlMessage.FIFO)
+		{
+			mode = message.getType();
+		}
+		
 		return success;
 	} 
 		
