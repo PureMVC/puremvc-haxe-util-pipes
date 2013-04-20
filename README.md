@@ -6,7 +6,7 @@ This utility provides the capability for creating pipelines that pass messages b
 * [Discussion](http://forums.puremvc.org/index.php?topic=935.0)
 
 ## Status
-Production - [Version 1.2](https://github.com/PureMVC/puremvc-haxe-util-pipes/blob/master/VERSION)
+Production - [Version 1.3](https://github.com/PureMVC/puremvc-haxe-util-pipes/blob/master/VERSION)
 
 ## Platforms / Technologies
 * [Haxe](http://en.wikipedia.org/wiki/Haxe)
