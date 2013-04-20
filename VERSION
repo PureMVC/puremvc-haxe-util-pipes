@@ -1,12 +1,14 @@
 PureMVC Haxe MultiCore Utility - Pipes (Ported)
 -------------------------------------------------------------------------
-Release Date: 01/10/09
+Release Date: 4/20/13
     Platform: haXe - JavaScript, Flash 6, 7, 8, 9, Neko VM
      Version: 1 
-    Revision: 2 
+    Revision: 3
      Authors: Marco Secchi <marco.secchi@puremvc.org>
             : Cliff Hall <clifford.hall@puremvc.org>
 --------------------------------------------------------------------------
+1.3   Haxe 3 support added by zjnue
+
 1.2   Libraries now include version number. - CLH
 
 1.1   haXe 2.0 compatibility. This version is no longer compatible with older 
